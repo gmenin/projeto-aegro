@@ -29,8 +29,8 @@ public class Farm {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@Column(name = "land_plots", nullable = true)
-	private Set<LandPlot> landPlots;
+	@Column(name = "glebes", nullable = true)
+	private Set<Glebe> glebes;
 
 	/**
 	 * @param <code>name</code> the farm name	
@@ -51,25 +51,25 @@ public class Farm {
 		this.name = name;
 	}
 	
-	public List<LandPlot> getLandPlots() {
-		List<LandPlot> landPlots = new ArrayList<>(getLandPlotsInternal());
-		return landPlots;
+	public List<Glebe> getGlabes() {
+		List<Glebe> glebes = new ArrayList<>(getGlebesInternal());
+		return glebes;
 	}
 
-	protected Set<LandPlot> getLandPlotsInternal() {
-		if(this.landPlots == null) {
-			this.landPlots = new HashSet<>();
+	protected Set<Glebe> getGlebesInternal() {
+		if(this.glebes == null) {
+			this.glebes = new HashSet<>();
 		}
-		return this.landPlots;
+		return this.glebes;
 	}
 
-	public void addLandPlot(LandPlot landPlot) {
-		getLandPlotsInternal().add(landPlot);
+	public void addGlebe(Glebe glebe) {
+		getGlebesInternal().add(glebe);
 	}
 
 	@Override
 	public String toString() {
-		return "Farm [id=" + id + ", name=" + name + ", landPlots=" + Arrays.toString(getLandPlots().toArray()) + "]";
+		return "Farm [id=" + id + ", name=" + name + ", glebes=" + Arrays.toString(getGlabes().toArray()) + "]";
 	}
 	
 }
