@@ -20,7 +20,7 @@ import javax.persistence.Id;
  *
  */
 @Entity
-public class LandPlot {
+public class Glebe {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,10 +36,10 @@ public class LandPlot {
 	private double area;
 
 	/**
-	 * @param <code>name</code>			the land plot name
-	 * @param <code>area</code>			the land plot area (in Hectare)
+	 * @param <code>name</code>			the glebe name
+	 * @param <code>area</code>			the glebe area (in Hectare)
 	 */
-	public LandPlot(String name, double area) {
+	public Glebe(String name, double area) {
 		this.name = name;
 		this.area = area;
 	}
@@ -82,7 +82,7 @@ public class LandPlot {
 
 	@Override
 	public String toString() {
-		return "LandPlot [id=" + id + ", name=" + name + ", productions=" + Arrays.toString(getProductions().toArray()) + ", area=" + area + "]";
+		return "Glebe [id=" + id + ", name=" + name + ", productions=" + Arrays.toString(getProductions().toArray()) + ", area=" + area + "]";
 	}
 
 }
