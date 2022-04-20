@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * @author Gabriel Menin
@@ -23,13 +26,14 @@ import javax.persistence.Id;
 public class Farm {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
 	@Column(name = "glebes", nullable = true)
+	@ElementCollection(targetClass=Glebe.class)
 	private Set<Glebe> glebes;
 
 	/**
@@ -38,6 +42,11 @@ public class Farm {
 	public Farm(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Default constructor
+	 */
+	public Farm() {}
 
 	public Long getId() {
 		return id;
@@ -51,7 +60,7 @@ public class Farm {
 		this.name = name;
 	}
 	
-	public List<Glebe> getGlabes() {
+	public List<Glebe> getGlebes() {
 		List<Glebe> glebes = new ArrayList<>(getGlebesInternal());
 		return glebes;
 	}
@@ -69,7 +78,7 @@ public class Farm {
 
 	@Override
 	public String toString() {
-		return "Farm [id=" + id + ", name=" + name + ", glebes=" + Arrays.toString(getGlabes().toArray()) + "]";
+		return "Farm [id=" + id + ", name=" + name + ", glebes=" + Arrays.toString(getGlebes().toArray()) + "]";
 	}
 	
 }
