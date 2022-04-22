@@ -5,9 +5,13 @@ package com.aegro.projetoaegro.rest.controller;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +35,7 @@ public class FarmRestController {
 	@Autowired
 	FarmService farmService;
 
-	@GetMapping(value = "/{id}", produces = "application/json")
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Farm> getFarmById(@PathVariable("id") String id) {
 
 		Long idL;
@@ -51,7 +55,7 @@ public class FarmRestController {
 		return new ResponseEntity<Farm>(farm, HttpStatus.OK);
 	}
 
-	@GetMapping(produces = "application/json")
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Farm>> getAllFarms() {
 		Collection<Farm> farms = this.farmService.findAllFarms();
 
@@ -62,8 +66,13 @@ public class FarmRestController {
 		return new ResponseEntity<Collection<Farm>>(farms, HttpStatus.OK);
 	}
 
-	@PostMapping(produces = "application/json")
-	public ResponseEntity<Farm> addFarm(@RequestBody Farm farm) {
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Farm> addFarm(@RequestBody @Valid Farm farm, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
+		}
+		
 		if (farm == null) {
 			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
 		}
@@ -98,8 +107,8 @@ public class FarmRestController {
 		return new ResponseEntity<Farm>(HttpStatus.NO_CONTENT);
 	}
 
-	@PutMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Farm> updateFarm(@PathVariable("id") String id, @RequestBody Farm farm) {
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Farm> updateFarm(@PathVariable("id") String id, @RequestBody @Valid Farm farm, BindingResult bindingResult) {
 
 		Long idL;
 
@@ -110,6 +119,10 @@ public class FarmRestController {
 		}
 
 		Farm currentFarm = this.farmService.findFarmById(idL);
+		
+		if(bindingResult.hasErrors()) {
+			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
+		}
 
 		if (farm == null) {
 			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
