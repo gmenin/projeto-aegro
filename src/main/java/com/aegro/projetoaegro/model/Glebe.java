@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * @author Gabriel Menin
@@ -30,6 +33,7 @@ public class Glebe {
 	private String name;
 	
 	@Column(name = "productions", nullable = true)
+	@ElementCollection(targetClass=Production.class)
 	private Set<Production> productions;
 	
 	@Column(name = "area", nullable = false)
