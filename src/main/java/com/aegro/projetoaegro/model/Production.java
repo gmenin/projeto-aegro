@@ -3,11 +3,16 @@
  */
 package com.aegro.projetoaegro.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Gabriel Menin
@@ -17,7 +22,7 @@ import javax.persistence.Id;
 public class Production {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "name", nullable = false)
@@ -25,6 +30,11 @@ public class Production {
 	
 	@Column(name = "amount", nullable = false)
 	private double amount;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="glebe_id")
+	@JsonIgnore
+	private Glebe glebe;
 
 	/**
 	 * @param <code>name</code>		the production name

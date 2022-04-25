@@ -13,7 +13,7 @@ import com.aegro.projetoaegro.model.Farm;
 import com.aegro.projetoaegro.repository.FarmRepository;
 
 /**
- * @author gabriel.menin
+ * @author Gabriel Menin
  *
  */
 @Service

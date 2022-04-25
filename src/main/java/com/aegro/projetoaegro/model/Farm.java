@@ -9,14 +9,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Gabriel Menin
@@ -34,8 +37,7 @@ public class Farm {
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
-	@Column(name = "glebes")
-	@ElementCollection(targetClass=Glebe.class)
+	@OneToMany(mappedBy = "farm", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private Set<Glebe> glebes;
 
 	/**
@@ -67,6 +69,7 @@ public class Farm {
 		return glebes;
 	}
 
+	@JsonIgnore
 	protected Set<Glebe> getGlebesInternal() {
 		if(this.glebes == null) {
 			this.glebes = new HashSet<>();
