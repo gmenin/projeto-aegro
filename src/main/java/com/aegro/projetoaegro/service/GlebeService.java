@@ -22,4 +22,7 @@ public interface GlebeService {
 	Glebe saveGlebe(Glebe glebe) throws DataAccessException;
 
 	void deleteGlebe(Glebe glebe) throws DataAccessException;
+
+	Glebe findGlebeById(Long glebeId) throws DataAccessException;
+	
 }

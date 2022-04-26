@@ -39,7 +39,7 @@ public class Glebe {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@OneToMany(mappedBy = "glebe", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "glebe", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private Set<Production> productions;
 	
 	@NotNull
