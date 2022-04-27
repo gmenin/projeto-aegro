@@ -95,6 +95,9 @@ public class GlebeRestController {
 		glebe.setFarm(farm);
 
 		Glebe savedGlebe = this.glebeService.saveGlebe(glebe);
+		
+		this.glebeService.updateGlabeProductivity(savedGlebe);
+		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Glebe>(savedGlebe, HttpStatus.CREATED);
 	}
@@ -109,6 +112,11 @@ public class GlebeRestController {
 		}
 
 		this.glebeService.deleteGlebe(glebe);
+		
+		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
+		
+		this.glebeService.updateGlabeProductivity(glebe);
+		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Glebe>(HttpStatus.NO_CONTENT);
 	}
@@ -135,6 +143,11 @@ public class GlebeRestController {
 		}
 
 		Glebe savedGlebe = this.glebeService.saveGlebe(currentGlebe);
+		
+		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
+		
+		this.glebeService.updateGlabeProductivity(savedGlebe);
+		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Glebe>(savedGlebe, HttpStatus.OK);
 	}

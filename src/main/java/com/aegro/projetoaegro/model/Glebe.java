@@ -50,6 +50,9 @@ public class Glebe {
 	@JoinColumn(name="farm_id")	
 	@JsonIgnore
 	private Farm farm;
+	
+	@Column(name = "productivity")
+	private double productivity;
 
 	/**
 	 * @param <code>name</code>			the glebe name
@@ -115,5 +118,13 @@ public class Glebe {
 	public String toString() {
 		return "Glebe [id=" + id + ", name=" + name + ", area=" + area + ", productions=" + Arrays.toString(getProductions().toArray()) + "]";
 	}
-
+	
+	public double getProductivity() {
+		return this.productivity;
+	}
+	
+	public void setProductivity(double productivity) {
+		this.productivity = productivity;
+	}
+	
 }
