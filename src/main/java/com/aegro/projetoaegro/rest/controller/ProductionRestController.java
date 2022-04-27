@@ -122,17 +122,17 @@ public class ProductionRestController {
 			@RequestBody @Valid Production production, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Production>(HttpStatus.BAD_REQUEST);
 		}
 
 		if (production == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Production>(HttpStatus.BAD_REQUEST);
 		}
 
 		Production currentProduction = this.productionService.findProductionById(productionId);
 
 		if (currentProduction == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Production>(HttpStatus.NOT_FOUND);
 		}
 
 		currentProduction.setAmount(production.getAmount());
