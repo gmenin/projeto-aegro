@@ -64,7 +64,16 @@ public class GlebeServiceImpl implements GlebeService{
 		} catch (Exception e) {
 
 		}
-	} 
-	
-	
+	}
+
+	@Override
+	public Glebe findGlebeById(Long glebeId) throws DataAccessException {
+		
+		try {
+			return repository.findById(glebeId).get();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+		
 }

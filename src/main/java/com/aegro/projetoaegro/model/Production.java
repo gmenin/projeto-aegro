@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,38 +26,31 @@ public class Production {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name", nullable = false)
-	private String name;
-	
+	@NotNull
 	@Column(name = "amount", nullable = false)
 	private double amount;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="glebe_id")
 	@JsonIgnore
 	private Glebe glebe;
 
 	/**
-	 * @param <code>name</code>		the production name
 	 * @param <code>amount</code>	the record of the amount produced (in KG)
 	 */
-	public Production(String name, double amount) {
-		this.name = name;
+	public Production(double amount) {
 		this.amount = amount;
 	}
+
+	/**
+	 * Default constructor
+	 */
+	public Production() {}
 
 	public Long getId() {
 		return id;
 	}
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public double getAmount() {
 		return amount;
 	}
@@ -65,9 +59,18 @@ public class Production {
 		this.amount = amount;
 	}
 
+	@JsonIgnore
+	public Glebe getGlebe() {
+		return glebe;
+	}
+
+	public void setGlebe(Glebe glebe) {
+		this.glebe = glebe;
+	}
+
 	@Override
 	public String toString() {
-		return "Production [id=" + id + ", name=" + name + ", amount=" + amount + "]";
+		return "Production [amount=" + amount + "]";
 	}
 
 }
