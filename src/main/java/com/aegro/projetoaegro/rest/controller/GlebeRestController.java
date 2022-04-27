@@ -144,7 +144,7 @@ public class GlebeRestController {
 
 		Glebe savedGlebe = this.glebeService.saveGlebe(currentGlebe);
 		
-		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
+		Farm farm = this.farmService.findFarmById(savedGlebe.getFarm().getId());
 		
 		this.glebeService.updateGlabeProductivity(savedGlebe);
 		this.farmService.updateFarmProductivity(farm);

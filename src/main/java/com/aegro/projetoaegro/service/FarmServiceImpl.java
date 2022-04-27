@@ -131,7 +131,7 @@ public class FarmServiceImpl implements FarmService {
 		try {
 			Collection<Glebe> glebes = this.glebeService.findAllGlebesByFarmId(farm.getId());
 			for (Glebe glebe: glebes) {
-				totalAmount += glebeService.calculateAmountProduced(glebe);
+				totalAmount += glebeService.calculateGlebeAmountProduced(glebe);
 			}
 			return totalAmount;
 			

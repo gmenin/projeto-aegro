@@ -27,5 +27,5 @@ public interface GlebeService {
 	
 	void updateGlabeProductivity(Glebe glebe) throws DataAccessException;
 	
-	double calculateAmountProduced(Glebe glebe) throws DataAccessException;
+	double calculateGlebeAmountProduced(Glebe glebe) throws DataAccessException;
 }
