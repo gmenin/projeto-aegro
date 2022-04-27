@@ -31,99 +31,79 @@ import com.aegro.projetoaegro.service.GlebeService;
  *
  */
 @RestController
-@RequestMapping("/v1/farm")
+@RequestMapping("/api/v1")
 public class GlebeRestController {
-	
+
 	@Autowired
 	GlebeService glebeService;
-	
+
 	@Autowired
 	FarmService farmService;
-	
-	@GetMapping(value = "/{farmId}/glebe", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Glebe>> getAllGlebesFromFarm(@PathVariable("farmId") String farmId) {
-		
-		Long farmIdL;
 
-		try {
-			farmIdL = Long.parseLong(farmId);
-		} catch (Exception e) {
-			return new ResponseEntity<Collection<Glebe>>(HttpStatus.BAD_REQUEST);
-		}
-		
-		Collection<Glebe> glebes = glebeService.findAllGlebesByFarmId(farmIdL);
-		
+	@GetMapping(value = "/farm/{farmId}/glebe", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Glebe>> getAllGlebesFromFarm(@PathVariable("farmId") Long farmId) {
+
+		Collection<Glebe> glebes = glebeService.findAllGlebesByFarmId(farmId);
+
 		return new ResponseEntity<Collection<Glebe>>(glebes, HttpStatus.OK);
 	}
-	
-	@GetMapping(value = "/{farmId}/glebe/{glebeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Glebe> getGlebeFromFarm(@PathVariable("farmId") String farmId, @PathVariable("glebeId") String glebeId) {
-		
-		Long farmIdL, glebeIdL;
 
-		try {
-			farmIdL = Long.parseLong(farmId);
-			glebeIdL = Long.parseLong(glebeId);
-		} catch (Exception e) {
-			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
-		}
-		
-		Glebe glebe = glebeService.findGlebeByFarmId(farmIdL, glebeIdL);
-		
+	@GetMapping(value = "/farm/{farmId}/glebe/{glebeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Glebe> getGlebeFromFarm(@PathVariable("farmId") Long farmId,
+			@PathVariable("glebeId") Long glebeId) {
+
+		Glebe glebe = glebeService.findGlebeByFarmId(farmId, glebeId);
+
 		if (glebe == null) {
 			return new ResponseEntity<Glebe>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		return new ResponseEntity<Glebe>(glebe, HttpStatus.OK);
 	}
-	
-	@PostMapping(value = "/{farmId}/glebe", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Glebe> addGlebe(@PathVariable("farmId") String farmId, @RequestBody @Valid Glebe glebe, BindingResult bindingResult) {
-		
-		Long farmIdL;
 
-		try {
-			farmIdL = Long.parseLong(farmId);
-		} catch (Exception e) {
+	@GetMapping(value = "/glebe/{glebeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Glebe> getGlebeById(@PathVariable("glebeId") Long glebeId) {
+
+		Glebe glebe = glebeService.findGlebeById(glebeId);
+
+		if (glebe == null) {
+			return new ResponseEntity<Glebe>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<Glebe>(glebe, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/farm/{farmId}/glebe", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Glebe> addGlebe(@PathVariable("farmId") Long farmId, @RequestBody @Valid Glebe glebe,
+			BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
 		}
-		
-		if(bindingResult.hasErrors()) {
-			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
-		}
-		
+
 		if (glebe == null) {
 			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
 		}
 
-		Farm farm = this.farmService.findFarmById(farmIdL);
+		Farm farm = this.farmService.findFarmById(farmId);
 
 		if (farm == null) {
 			return new ResponseEntity<Glebe>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		farm.addGlebe(glebe);
 		glebe.setFarm(farm);
-		
+
 		Glebe savedGlebe = this.glebeService.saveGlebe(glebe);
 
 		return new ResponseEntity<Glebe>(savedGlebe, HttpStatus.CREATED);
 	}
-	
-	@DeleteMapping(value = "/{farmId}/glebe/{glebeId}")
-	public ResponseEntity<Glebe> deleteGlebe(@PathVariable("farmId") String farmId, @PathVariable("glebeId") String glebeId) {
-		
-		Long farmIdL, glebeIdL;
 
-		try {
-			farmIdL = Long.parseLong(farmId);
-			glebeIdL = Long.parseLong(glebeId);
-		} catch (Exception e) {
-			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
-		}
+	@DeleteMapping(value = "/glebe/{glebeId}")
+	public ResponseEntity<Glebe> deleteGlebe(@PathVariable("glebeId") Long glebeId) {
 
-		Glebe glebe = glebeService.findGlebeByFarmId(farmIdL, glebeIdL);
-		
+		Glebe glebe = glebeService.findGlebeById(glebeId);
+
 		if (glebe == null) {
 			return new ResponseEntity<Glebe>(HttpStatus.NOT_FOUND);
 		}
@@ -132,21 +112,12 @@ public class GlebeRestController {
 
 		return new ResponseEntity<Glebe>(HttpStatus.NO_CONTENT);
 	}
-	
-	@PutMapping(value = "/{farmId}/glebe/{glebeId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Glebe> updateGlebe(@PathVariable("farmId") String farmId, @PathVariable("glebeId") String glebeId, @RequestBody Glebe glebe) {
 
-		Long farmIdL, glebeIdL;
+	@PutMapping(value = "/glebe/{glebeId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Glebe> updateGlebe(@PathVariable("glebeId") Long glebeId, @RequestBody Glebe glebe) {
 
-		try {
-			farmIdL = Long.parseLong(farmId);
-			glebeIdL = Long.parseLong(glebeId);
-		} catch (Exception e) {
-			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
-		}
+		Glebe currentGlebe = this.glebeService.findGlebeById(glebeId);
 
-		Glebe currentGlebe = this.glebeService.findGlebeByFarmId(farmIdL, glebeIdL);
-		
 		if (currentGlebe == null) {
 			return new ResponseEntity<Glebe>(HttpStatus.NOT_FOUND);
 		}
@@ -158,7 +129,7 @@ public class GlebeRestController {
 		if (glebe.getName() != null) {
 			currentGlebe.setName(glebe.getName());
 		}
-		
+
 		if (glebe.getArea() != 0.0) {
 			currentGlebe.setArea(glebe.getArea());
 		}

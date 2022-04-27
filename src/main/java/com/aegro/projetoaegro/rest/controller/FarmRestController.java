@@ -29,41 +29,34 @@ import com.aegro.projetoaegro.service.FarmService;
  *
  */
 @RestController
-@RequestMapping("/v1/farm")
+@RequestMapping("/api/v1/farm")
 public class FarmRestController {
 	
 	@Autowired
 	FarmService farmService;
 
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Farm> getFarmById(@PathVariable("id") String id) {
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Farm>> getAllFarms() {
+		
+		Collection<Farm> farms = this.farmService.findAllFarms();
 
-		Long idL;
-
-		try {
-			idL = Long.parseLong(id);
-		} catch (Exception e) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
+		if (farms.isEmpty() || farms == null) {
+			return new ResponseEntity<Collection<Farm>>(HttpStatus.NOT_FOUND);
 		}
 
-		Farm farm = this.farmService.findFarmById(idL);
+		return new ResponseEntity<Collection<Farm>>(farms, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Farm> getFarmById(@PathVariable("id") Long id) {
+
+		Farm farm = this.farmService.findFarmById(id);
 
 		if (farm == null) {
 			return new ResponseEntity<Farm>(HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<Farm>(farm, HttpStatus.OK);
-	}
-
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Farm>> getAllFarms() {
-		Collection<Farm> farms = this.farmService.findAllFarms();
-
-		if (farms == null) {
-			return new ResponseEntity<Collection<Farm>>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<Collection<Farm>>(farms, HttpStatus.OK);
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -87,16 +80,9 @@ public class FarmRestController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Farm> deleteFarm(@PathVariable("id") String id) {
-		Long idL;
+	public ResponseEntity<Farm> deleteFarm(@PathVariable("id") Long id) {
 
-		try {
-			idL = Long.parseLong(id);
-		} catch (Exception e) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
-		}
-
-		Farm farm = this.farmService.findFarmById(idL);
+		Farm farm = this.farmService.findFarmById(id);
 
 		if (farm == null) {
 			return new ResponseEntity<Farm>(HttpStatus.NOT_FOUND);
@@ -108,17 +94,7 @@ public class FarmRestController {
 	}
 
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Farm> updateFarm(@PathVariable("id") String id, @RequestBody @Valid Farm farm, BindingResult bindingResult) {
-
-		Long idL;
-
-		try {
-			idL = Long.parseLong(id);
-		} catch (Exception e) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
-		}
-
-		Farm currentFarm = this.farmService.findFarmById(idL);
+	public ResponseEntity<Farm> updateFarm(@PathVariable("id") Long id, @RequestBody @Valid Farm farm, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()) {
 			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
@@ -131,6 +107,8 @@ public class FarmRestController {
 		if (farmService.existsByName(farm.getName())) {
 			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
 		}
+		
+		Farm currentFarm = this.farmService.findFarmById(id);
 
 		if (currentFarm == null) {
 			return new ResponseEntity<Farm>(HttpStatus.NOT_FOUND);
