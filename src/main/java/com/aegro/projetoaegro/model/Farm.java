@@ -39,6 +39,9 @@ public class Farm {
 	
 	@OneToMany(mappedBy = "farm", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private Set<Glebe> glebes;
+	
+	@Column(name = "productivity")
+	private double productivity;
 
 	/**
 	 * @param <code>name</code> the farm name	
@@ -84,6 +87,14 @@ public class Farm {
 	@Override
 	public String toString() {
 		return "Farm [id=" + id + ", name=" + name + ", glebes=" + Arrays.toString(getGlebes().toArray()) + "]";
+	}
+	
+	public double getProductivity() {
+		return this.productivity;
+	}
+	
+	public void setProductivity(double productivity) {
+		this.productivity = productivity;
 	}
 	
 }

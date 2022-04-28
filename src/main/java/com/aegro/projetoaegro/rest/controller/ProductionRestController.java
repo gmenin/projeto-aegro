@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aegro.projetoaegro.model.Farm;
 import com.aegro.projetoaegro.model.Glebe;
 import com.aegro.projetoaegro.model.Production;
+import com.aegro.projetoaegro.service.FarmService;
 import com.aegro.projetoaegro.service.GlebeService;
 import com.aegro.projetoaegro.service.ProductionService;
 
@@ -39,6 +41,9 @@ public class ProductionRestController {
 
 	@Autowired
 	GlebeService glebeService;
+
+	@Autowired
+	FarmService farmService;
 
 	@GetMapping(value = "/glebe/{glebeId}/production", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Production>> getAllProductionsFromGlebe(@PathVariable("glebeId") Long glebeId) {
@@ -100,6 +105,11 @@ public class ProductionRestController {
 
 		Production savedProduction = this.productionService.saveProduction(production);
 
+		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
+		
+		this.glebeService.updateGlabeProductivity(glebe);
+		this.farmService.updateFarmProductivity(farm);
+
 		return new ResponseEntity<Production>(savedProduction, HttpStatus.CREATED);
 	}
 
@@ -113,6 +123,12 @@ public class ProductionRestController {
 		}
 
 		this.productionService.deleteProduction(production);
+
+		Glebe glebe = this.glebeService.findGlebeById(production.getGlebe().getId());
+		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
+		
+		this.glebeService.updateGlabeProductivity(glebe);
+		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Production>(HttpStatus.NO_CONTENT);
 	}
@@ -137,6 +153,12 @@ public class ProductionRestController {
 
 		currentProduction.setAmount(production.getAmount());
 		Production savedProduction = this.productionService.saveProduction(currentProduction);
+		
+		Glebe glebe = this.glebeService.findGlebeById(currentProduction.getGlebe().getId());
+		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
+		
+		this.glebeService.updateGlabeProductivity(glebe);
+		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Production>(savedProduction, HttpStatus.OK);
 	}

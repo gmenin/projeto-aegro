@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.aegro.projetoaegro.model.Farm;
+import com.aegro.projetoaegro.model.Glebe;
 import com.aegro.projetoaegro.repository.FarmRepository;
 
 /**
@@ -21,9 +22,12 @@ public class FarmServiceImpl implements FarmService {
 
 	private FarmRepository repository;
 
+	private GlebeService glebeService;
+
 	@Autowired
-	public FarmServiceImpl(FarmRepository repository) {
+	public FarmServiceImpl(FarmRepository repository, GlebeService glebeService) {
 		this.repository = repository;
+		this.glebeService = glebeService;
 	}
 
 	@Override
@@ -31,7 +35,7 @@ public class FarmServiceImpl implements FarmService {
 
 		try {
 			return repository.findById(id).get();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -41,7 +45,7 @@ public class FarmServiceImpl implements FarmService {
 
 		try {
 			return repository.findAll();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -51,7 +55,7 @@ public class FarmServiceImpl implements FarmService {
 
 		try {
 			return repository.save(farm);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -71,7 +75,7 @@ public class FarmServiceImpl implements FarmService {
 
 		try {
 			return repository.existsByName(name);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return true;
 		}
 	}
@@ -81,8 +85,58 @@ public class FarmServiceImpl implements FarmService {
 
 		try {
 			return repository.existsById(id);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return true;
+		}
+	}
+
+	@Override
+	public void updateFarmProductivity(Farm farm) throws DataAccessException {
+		
+		try {
+			double totalAmount = this.calculateFarmAmountProduced(farm);
+			double totalArea = this.calculateFarmArea(farm);
+			
+			if ((totalAmount > 0) && (totalArea > 0)) {
+				farm.setProductivity(totalAmount/totalArea);
+				this.saveFarm(farm);
+			}	
+		} catch (Exception e) {
+			
+		}
+	}
+
+	@Override
+	public double calculateFarmArea(Farm farm) throws DataAccessException {
+
+		double totalArea = 0;
+
+		try {
+			Collection<Glebe> glebes = this.glebeService.findAllGlebesByFarmId(farm.getId());
+			for (Glebe glebe : glebes) {
+				totalArea += glebe.getArea();
+			}
+			return totalArea;
+			
+		} catch (Exception e) {
+			return totalArea;
+		}
+	}
+
+	@Override
+	public double calculateFarmAmountProduced(Farm farm) throws DataAccessException {
+		
+		double totalAmount = 0;
+		
+		try {
+			Collection<Glebe> glebes = this.glebeService.findAllGlebesByFarmId(farm.getId());
+			for (Glebe glebe: glebes) {
+				totalAmount += glebeService.calculateGlebeAmountProduced(glebe);
+			}
+			return totalAmount;
+			
+		} catch (Exception e) {
+			return totalAmount;
 		}
 	}
 

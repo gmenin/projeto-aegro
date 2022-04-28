@@ -25,4 +25,7 @@ public interface GlebeService {
 
 	Glebe findGlebeById(Long glebeId) throws DataAccessException;
 	
+	void updateGlabeProductivity(Glebe glebe) throws DataAccessException;
+	
+	double calculateGlebeAmountProduced(Glebe glebe) throws DataAccessException;
 }

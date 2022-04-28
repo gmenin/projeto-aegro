@@ -27,4 +27,10 @@ public interface FarmService {
 	
 	boolean existsById(Long id) throws DataAccessException;
 	
+	void updateFarmProductivity(Farm farm) throws DataAccessException;
+	
+	double calculateFarmArea(Farm farm) throws DataAccessException;
+	
+	double calculateFarmAmountProduced(Farm farm) throws DataAccessException;
+	
 }

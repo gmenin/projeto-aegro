@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.aegro.projetoaegro.model.Glebe;
+import com.aegro.projetoaegro.model.Production;
 import com.aegro.projetoaegro.repository.GlebeRepository;
 
 /**
@@ -21,9 +22,12 @@ public class GlebeServiceImpl implements GlebeService{
 	
 	private GlebeRepository repository;
 	
+	private ProductionService productionService;
+	
 	@Autowired
-	public GlebeServiceImpl(GlebeRepository repository) {
+	public GlebeServiceImpl(GlebeRepository repository, ProductionService productionService) {
 		this.repository = repository;
+		this.productionService = productionService;
 	}
 
 	@Override
@@ -73,6 +77,39 @@ public class GlebeServiceImpl implements GlebeService{
 			return repository.findById(glebeId).get();
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	@Override
+	public void updateGlabeProductivity(Glebe glebe) throws DataAccessException {
+		
+		try {
+			double totalAmount = this.calculateGlebeAmountProduced(glebe);
+			if (totalAmount > 0) {
+				glebe.setProductivity(totalAmount/glebe.getArea());
+				this.saveGlebe(glebe);
+			}	
+			
+		}catch (Exception e) {
+			
+		}
+	}
+
+	@Override
+	public double calculateGlebeAmountProduced(Glebe glebe) throws DataAccessException {
+		
+		double totalAmount = 0;
+		
+		try {
+			Collection<Production> productions = this.productionService.findAllProductionsByGlebeId(glebe.getId());
+			
+			for (Production production: productions) {
+				totalAmount += production.getAmount();
+			}
+			return totalAmount;
+					
+		} catch (Exception e) {
+			return totalAmount;
 		}
 	}
 		
