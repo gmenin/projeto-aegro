@@ -62,12 +62,6 @@ public class GlebeRestControllerTest {
 		glebes.add(new Glebe("Talhão 1", 40));
 		glebes.add(new Glebe("Talhão 2", 50));
 
-//		glebes.get(0).setFarm(farm);
-//		glebes.get(1).setFarm(farm);
-//		
-//		farm.addGlebe(glebes.get(0));
-//		farm.addGlebe(glebes.get(1));
-
 	}
 
 	/**

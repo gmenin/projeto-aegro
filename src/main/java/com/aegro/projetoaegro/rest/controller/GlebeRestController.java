@@ -45,7 +45,11 @@ public class GlebeRestController {
 
 		Collection<Glebe> glebes = glebeService.findAllGlebesByFarmId(farmId);
 
-		if (glebes.isEmpty() || glebes == null) {
+		if (glebes == null) {
+			return new ResponseEntity<Collection<Glebe>>(HttpStatus.NOT_FOUND);
+		}
+		
+		if (glebes.isEmpty()) {
 			return new ResponseEntity<Collection<Glebe>>(HttpStatus.NOT_FOUND);
 		}
 		
