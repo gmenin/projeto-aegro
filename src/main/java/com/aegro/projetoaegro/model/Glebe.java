@@ -40,6 +40,7 @@ public class Glebe {
 	private String name;
 	
 	@OneToMany(mappedBy = "glebe", cascade = CascadeType.MERGE, orphanRemoval = true)
+	@JsonIgnore
 	private Set<Production> productions;
 	
 	@NotNull
@@ -51,6 +52,11 @@ public class Glebe {
 	@JsonIgnore
 	private Farm farm;
 	
+	/**
+	 * A produtividade do Talhão é armazenada porque é 
+	 * um dado que precisará ser acessado constantemente
+	 * e seria custoso recalculá-la toda vez
+	 */
 	@Column(name = "productivity")
 	private double productivity;
 
@@ -80,6 +86,7 @@ public class Glebe {
 		this.name = name;
 	}
 	
+	@JsonIgnore
 	public List<Production> getProductions() {
 		List<Production> productions = new ArrayList<>(getProductionsInternal());
 		return productions;
