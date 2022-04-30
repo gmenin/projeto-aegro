@@ -50,7 +50,11 @@ public class ProductionRestController {
 
 		Collection<Production> productions = productionService.findAllProductionsByGlebeId(glebeId);
 
-		if (productions.isEmpty() || productions == null) {
+		if (productions == null) {
+			return new ResponseEntity<Collection<Production>>(HttpStatus.NOT_FOUND);
+		}
+		
+		if (productions.isEmpty()) {
 			return new ResponseEntity<Collection<Production>>(HttpStatus.NOT_FOUND);
 		}
 

@@ -40,7 +40,11 @@ public class FarmRestController {
 		
 		Collection<Farm> farms = this.farmService.findAllFarms();
 
-		if (farms.isEmpty() || farms == null) {
+		if (farms == null) {
+			return new ResponseEntity<Collection<Farm>>(HttpStatus.NOT_FOUND);
+		}
+		
+		if (farms.isEmpty()) {
 			return new ResponseEntity<Collection<Farm>>(HttpStatus.NOT_FOUND);
 		}
 
