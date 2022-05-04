@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,15 +87,7 @@ public class ProductionRestController {
 
 	@PostMapping(value = "/glebe/{glebeId}/production", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Production> addProduction(@PathVariable("glebeId") Long glebeId,
-			@RequestBody @Valid Production production, BindingResult bindingResult) {
-
-		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<Production>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (production == null) {
-			return new ResponseEntity<Production>(HttpStatus.BAD_REQUEST);
-		}
+			@RequestBody @Valid Production production) {
 
 		Glebe glebe = this.glebeService.findGlebeById(glebeId);
 
@@ -139,15 +130,7 @@ public class ProductionRestController {
 
 	@PutMapping(value = "/production/{productionId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Production> updateProduction(@PathVariable("productionId") Long productionId,
-			@RequestBody @Valid Production production, BindingResult bindingResult) {
-
-		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<Production>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (production == null) {
-			return new ResponseEntity<Production>(HttpStatus.BAD_REQUEST);
-		}
+			@RequestBody @Valid Production production) {
 
 		Production currentProduction = this.productionService.findProductionById(productionId);
 

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +28,7 @@ public class Production {
 	private Long id;
 	
 	@NotNull
+	@Positive
 	@Column(name = "amount", nullable = false)
 	private double amount;
 	

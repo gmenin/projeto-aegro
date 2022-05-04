@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,16 +81,7 @@ public class GlebeRestController {
 	}
 
 	@PostMapping(value = "/farm/{farmId}/glebe", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Glebe> addGlebe(@PathVariable("farmId") Long farmId, @RequestBody @Valid Glebe glebe,
-			BindingResult bindingResult) {
-
-		if (bindingResult.hasErrors()) {
-			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (glebe == null) {
-			return new ResponseEntity<Glebe>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<Glebe> addGlebe(@PathVariable("farmId") Long farmId, @RequestBody @Valid Glebe glebe) {
 
 		Farm farm = this.farmService.findFarmById(farmId);
 

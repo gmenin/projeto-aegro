@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,15 +63,7 @@ public class FarmRestController {
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Farm> addFarm(@RequestBody @Valid Farm farm, BindingResult bindingResult) {
-		
-		if(bindingResult.hasErrors()) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
-		}
-		
-		if (farm == null) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<Farm> addFarm(@RequestBody @Valid Farm farm) {
 
 		if (farmService.existsByName(farm.getName())) {
 			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
@@ -98,15 +89,7 @@ public class FarmRestController {
 	}
 
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Farm> updateFarm(@PathVariable("id") Long id, @RequestBody @Valid Farm farm, BindingResult bindingResult) {
-		
-		if(bindingResult.hasErrors()) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (farm == null) {
-			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<Farm> updateFarm(@PathVariable("id") Long id, @RequestBody @Valid Farm farm) {
 
 		if (farmService.existsByName(farm.getName())) {
 			return new ResponseEntity<Farm>(HttpStatus.BAD_REQUEST);
