@@ -16,9 +16,13 @@ import com.aegro.projetoaegro.model.Glebe;
  */
 public interface GlebeRepository extends JpaRepository<Glebe, Long>{
 	
-	@Query(value = "SELECT * FROM GLEBE g WHERE g.FARM_ID = ?1 ORDER BY g.ID ASC", nativeQuery = true)
-	Collection<Glebe> findAllByFarmId(Long id);
+	Collection<Glebe> findByFarmId(Long farmId);
 	
+	/**
+	 * Query criada para buscar um único Talhão, 
+	 * dado o Id da Fazenda a que ele pertence
+	 * e o seu próprio Id, respectivamente.
+	 */
 	@Query(value = "SELECT * FROM GLEBE g WHERE g.FARM_ID = ?1 AND g.ID = ?2 ORDER BY g.ID ASC", nativeQuery = true)
-	Glebe findByFarmId(Long farmId, Long glebeId);
+	Glebe findGlebeByFarmId(Long farmId, Long glebeId);
 }

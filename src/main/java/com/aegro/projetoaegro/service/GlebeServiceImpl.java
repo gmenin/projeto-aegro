@@ -31,10 +31,10 @@ public class GlebeServiceImpl implements GlebeService{
 	}
 
 	@Override
-	public Collection<Glebe> findAllGlebesByFarmId(Long id) throws DataAccessException {
+	public Collection<Glebe> findAllGlebesByFarmId(Long farmId) throws DataAccessException {
 		
 		try {
-			return repository.findAllByFarmId(id);
+			return repository.findByFarmId(farmId);
 		}catch (Exception e) {
 			return null;
 		}
@@ -44,7 +44,7 @@ public class GlebeServiceImpl implements GlebeService{
 	public Glebe findGlebeByFarmId(Long farmId, Long glebeId) throws DataAccessException {
 		
 		try {
-			return repository.findByFarmId(farmId, glebeId);
+			return repository.findGlebeByFarmId(farmId, glebeId);
 		}catch (Exception e) {
 			return null;
 		}

@@ -16,9 +16,13 @@ import com.aegro.projetoaegro.model.Production;
  */
 public interface ProductionRepository extends JpaRepository<Production, Long>{
 
-	@Query(value = "SELECT * FROM PRODUCTION p WHERE p.GLEBE_ID = ?1 ORDER BY p.ID ASC", nativeQuery = true)
-	Collection<Production> findAllByGlebeId(Long glebeId);
+	Collection<Production> findByGlebeId(Long glebeId);
 
+	/**
+	 * Query criada para buscar uma única Produção, 
+	 * dado o Id do Talhão a que ela pertence e o
+	 * seu próprio Id, respectivamente.
+	 */
 	@Query(value = "SELECT * FROM PRODUCTION p WHERE p.GLEBE_ID = ?1 AND p.ID = ?2 ORDER BY p.ID ASC", nativeQuery = true)
-	Production findByGlebeId(Long glebeId, Long productionId);
+	Production findProductionByGlebeId(Long glebeId, Long productionId);
 }
