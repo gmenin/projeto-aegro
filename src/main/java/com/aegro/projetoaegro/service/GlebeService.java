@@ -15,7 +15,7 @@ import com.aegro.projetoaegro.model.Glebe;
  */
 public interface GlebeService {
 
-	Collection<Glebe> findAllGlebesByFarmId(Long id) throws DataAccessException; 
+	Collection<Glebe> findAllGlebesByFarmId(Long farmId) throws DataAccessException; 
 	
 	Glebe findGlebeByFarmId(Long farmId, Long glebeId) throws DataAccessException;
 

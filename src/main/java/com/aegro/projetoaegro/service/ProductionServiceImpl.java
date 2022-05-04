@@ -30,7 +30,7 @@ public class ProductionServiceImpl implements ProductionService{
 	public Collection<Production> findAllProductionsByGlebeId(Long glebeId) throws DataAccessException {
 		
 		try {
-			return repository.findAllByGlebeId(glebeId);
+			return repository.findByGlebeId(glebeId);
 		} catch (Exception e) {
 			return null;
 		}
@@ -40,7 +40,7 @@ public class ProductionServiceImpl implements ProductionService{
 	public Production findProductionByGlebeId(Long glebeId, Long productionId) throws DataAccessException {
 		
 		try {
-			return repository.findByGlebeId(glebeId, productionId);
+			return repository.findProductionByGlebeId(glebeId, productionId);
 		} catch (Exception e) {
 			return null;
 		}
