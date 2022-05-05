@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,7 +35,6 @@ public class Glebe {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
 	@NotBlank
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -44,6 +44,7 @@ public class Glebe {
 	private Set<Production> productions;
 	
 	@NotNull
+	@Positive
 	@Column(name = "area", nullable = false)
 	private double area;
 	
