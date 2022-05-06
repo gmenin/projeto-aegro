@@ -29,6 +29,8 @@ public interface FarmService {
 	
 	void updateFarmProductivity(Farm farm) throws DataAccessException;
 	
+	double calculateFarmProductivity(Farm farm) throws DataAccessException;
+	
 	double calculateFarmArea(Farm farm) throws DataAccessException;
 	
 	double calculateFarmAmountProduced(Farm farm) throws DataAccessException;
