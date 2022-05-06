@@ -102,7 +102,7 @@ public class ProductionRestController {
 
 		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
 		
-		this.glebeService.updateGlabeProductivity(glebe);
+		this.glebeService.updateGlebeProductivity(glebe);
 		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Production>(savedProduction, HttpStatus.CREATED);
@@ -122,7 +122,7 @@ public class ProductionRestController {
 		Glebe glebe = this.glebeService.findGlebeById(production.getGlebe().getId());
 		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
 		
-		this.glebeService.updateGlabeProductivity(glebe);
+		this.glebeService.updateGlebeProductivity(glebe);
 		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Production>(HttpStatus.NO_CONTENT);
@@ -144,7 +144,7 @@ public class ProductionRestController {
 		Glebe glebe = this.glebeService.findGlebeById(currentProduction.getGlebe().getId());
 		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
 		
-		this.glebeService.updateGlabeProductivity(glebe);
+		this.glebeService.updateGlebeProductivity(glebe);
 		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Production>(savedProduction, HttpStatus.OK);

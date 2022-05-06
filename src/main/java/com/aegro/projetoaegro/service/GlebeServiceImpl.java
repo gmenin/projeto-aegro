@@ -81,17 +81,33 @@ public class GlebeServiceImpl implements GlebeService{
 	}
 
 	@Override
-	public void updateGlabeProductivity(Glebe glebe) throws DataAccessException {
+	public void updateGlebeProductivity(Glebe glebe) throws DataAccessException {
 		
 		try {
-			double totalAmount = this.calculateGlebeAmountProduced(glebe);
-			if (totalAmount > 0) {
-				glebe.setProductivity(totalAmount/glebe.getArea());
+			double productivity = this.calculateGlebeProductivity(glebe);
+			if (productivity > 0) {
+				glebe.setProductivity(productivity);
 				this.saveGlebe(glebe);
 			}	
 			
 		}catch (Exception e) {
 			
+		}
+	}
+	
+	@Override
+	public double calculateGlebeProductivity(Glebe glebe) throws DataAccessException {
+		double productivity = 0;
+		
+		try {
+			double totalAmount = this.calculateGlebeAmountProduced(glebe);
+			
+			if (totalAmount > 0) {
+				productivity = totalAmount/glebe.getArea();
+			}	
+			return productivity;
+		}catch (Exception e) {
+			return -1;
 		}
 	}
 

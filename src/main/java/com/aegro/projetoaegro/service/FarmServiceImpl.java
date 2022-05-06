@@ -94,15 +94,31 @@ public class FarmServiceImpl implements FarmService {
 	public void updateFarmProductivity(Farm farm) throws DataAccessException {
 		
 		try {
-			double totalAmount = this.calculateFarmAmountProduced(farm);
-			double totalArea = this.calculateFarmArea(farm);
+			double productivity = this.calculateFarmProductivity(farm);
 			
-			if ((totalAmount > 0) && (totalArea > 0)) {
-				farm.setProductivity(totalAmount/totalArea);
+			if (productivity > 0) {
+				farm.setProductivity(productivity);
 				this.saveFarm(farm);
 			}	
 		} catch (Exception e) {
 			
+		}
+	}
+	
+	@Override
+	public double calculateFarmProductivity(Farm farm) throws DataAccessException {
+		double productivity = 0;
+		
+		try {
+			double totalAmount = this.calculateFarmAmountProduced(farm);
+			double totalArea = this.calculateFarmArea(farm);
+			
+			if ((totalAmount > 0) && (totalArea > 0)) {
+				productivity = totalAmount/totalArea;
+			}	
+			return productivity;
+		} catch (Exception e) {
+			return -1;
 		}
 	}
 
