@@ -19,12 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.aegro.projetoaegro.model.Glebe;
 import com.aegro.projetoaegro.model.Production;
 import com.aegro.projetoaegro.repository.ProductionRepository;
 
 /**
- * @author gabriel.menin
+ * @author Gabriel Menin
  *
  */
 @SpringBootTest

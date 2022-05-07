@@ -182,23 +182,4 @@ public class FarmRestControllerTest {
 				.andExpect(status().isNotFound());
 	}
 
-	/**
-	 * PUT TESTS
-	 */
-//	@Test
-//	public void testUpdateFarmSuccess() throws Exception {
-//		
-//		Farm farmFromClient = new Farm("Fazenda do Joventino");
-//		
-//		BDDMockito.given(farmService.findFarmById(2L)).willReturn(farms.get(1));
-//		
-//		ObjectMapper mapper = new ObjectMapper();
-//		String farmAsJson = mapper.writeValueAsString(farmFromClient);
-//		
-//		this.mockMvc.perform(put(url + "/2").content(farmAsJson)
-//				.accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
-//				.andExpect(content().contentType("application/json"))		
-//				.andExpect(status().isOk())		
-//				.andExpect(jsonPath("$.name").value(farmFromClient.getName()));
-//	}
 }
