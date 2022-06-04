@@ -96,10 +96,8 @@ public class FarmServiceImpl implements FarmService {
 		try {
 			double productivity = this.calculateFarmProductivity(farm);
 			
-			if (productivity > 0) {
-				farm.setProductivity(productivity);
-				this.saveFarm(farm);
-			}	
+			farm.setProductivity(productivity);
+			this.saveFarm(farm);
 		} catch (Exception e) {
 			
 		}
@@ -115,6 +113,7 @@ public class FarmServiceImpl implements FarmService {
 			
 			if ((totalAmount > 0) && (totalArea > 0)) {
 				productivity = totalAmount/totalArea;
+				productivity = (Math.round(productivity * 100.0) / 100.0);
 			}	
 			return productivity;
 		} catch (Exception e) {

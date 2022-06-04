@@ -85,11 +85,9 @@ public class GlebeServiceImpl implements GlebeService{
 		
 		try {
 			double productivity = this.calculateGlebeProductivity(glebe);
-			if (productivity > 0) {
-				glebe.setProductivity(productivity);
-				this.saveGlebe(glebe);
-			}	
 			
+			glebe.setProductivity(productivity);
+			this.saveGlebe(glebe);	
 		}catch (Exception e) {
 			
 		}
@@ -104,6 +102,7 @@ public class GlebeServiceImpl implements GlebeService{
 			
 			if (totalAmount > 0) {
 				productivity = totalAmount/glebe.getArea();
+				productivity = (Math.round(productivity * 100.0) / 100.0);
 			}	
 			return productivity;
 		}catch (Exception e) {

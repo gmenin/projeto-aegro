@@ -113,7 +113,6 @@ public class GlebeRestController {
 		
 		Farm farm = this.farmService.findFarmById(glebe.getFarm().getId());
 		
-		this.glebeService.updateGlebeProductivity(glebe);
 		this.farmService.updateFarmProductivity(farm);
 
 		return new ResponseEntity<Glebe>(HttpStatus.NO_CONTENT);
